@@ -5,11 +5,6 @@ import Image from "next/image";
 import TrakyoLogo from "../../../../public/assets/images/Trakyo_logo.svg";
 import Ios from "../../../../public/assets/images/ios.svg";
 import Android from "../../../../public/assets/images/android.svg";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 
 function index() {
   const [selectedReason, setSelectedReason] = useState("");
@@ -39,7 +34,7 @@ function index() {
             <span className={styles.DetailsView}>Shameer</span>
           </div>
         </div>
-        <div className={styles.VehicleDetails}>
+        <div className={styles.VehicleDetails2}>
           <div className={styles.NameandDetails}>
             <span className={styles.NameView}>Vehicle Type</span>
             <span className={styles.DetailsView}>4 wheeler</span>
@@ -65,29 +60,6 @@ function index() {
           </div>
         </div>
       </div>
-      {/* <div className={styles.reasonList}>
-        <div className={styles.reasonHeading}>
-          <span>Select reason to contact owner</span>
-        </div>
-        <div className={styles.reasongroup}>
-          <div className={styles.reasonShow}>
-            <span>Vehicle is getting towed away</span>
-            <Radio />
-          </div>
-          <div className={styles.reasonShow}>
-            <span>Vehicle is not loacked</span>
-            <Radio />
-          </div>
-          <div className={styles.reasonShow}>
-            <span>Vehicle met accident</span>
-            <Radio />
-          </div>
-          <div className={styles.reasonShow}>
-            <span>Vehicle is facing parking issues</span>
-            <Radio />
-          </div>
-        </div>
-      </div> */}
       <div className={styles.reasonList}>
         <div className={styles.reasonHeading}>
           <span>Select reason to contact owner</span>
