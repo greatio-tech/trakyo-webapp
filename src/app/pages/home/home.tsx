@@ -1,13 +1,58 @@
 "use client";
-import React, { useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import styles from "./home.module.css";
 import Image from "next/image";
+import axios from "axios";
 import TrakyoLogo from "../../../../public/assets/images/Trakyo_logo.svg";
 import Ios from "../../../../public/assets/images/ios.svg";
 import Android from "../../../../public/assets/images/android.svg";
+import CallScreen from "../../components/call-screen/callScreen";
+import { callApi } from "@/app/api/call_api/callApi";
+import { qrData } from "@/app/api/qrcodes/qrCode";
+
+interface UserData {
+  res: { data: object };
+  id: string;
+  owner: { name: string; phoneNumber: string };
+  vehicleDetails: {
+    licensePlate: string;
+    make: string;
+    model: string;
+    year: string;
+  };
+}
 
 function index() {
   const [selectedReason, setSelectedReason] = useState("");
+  const [userData, setUserData] = useState<UserData | undefined>(undefined);
+  const [callScreen, setCallScreen] = useState(false);
+  // const qrData = async () => {
+  //   try {
+  //     const res: UserData = await axios.get(
+  //       "http://localhost:6001/api/qrcodes/QR17203515048660"
+  //     );
+  //     setUserData(res.data);
+  //     // return res;
+  //   } catch (error) {
+  //     console.error("Error checking data existence:", error);
+  //     return [];
+  //   }
+  // };
+
+  const handleCall = (phoneNumber: string | undefined) => {
+    setCallScreen(true);
+
+    callApi(phoneNumber);
+  };
+
+  useEffect(() => {
+    qrData().then((res) => {
+      setUserData(res.data);
+      console.log(res, "res");
+    });
+  }, []);
+
+  console.log(userData, "<UserData>");
 
   const handleReasonChange = (event: {
     target: { value: React.SetStateAction<string> };
@@ -23,15 +68,19 @@ function index() {
         <div className={styles.VehicleDetails}>
           <div className={styles.NameandDetails}>
             <span className={styles.NameView}>Registration Number</span>
-            <span className={styles.DetailsView}>KL 01 E 2022</span>
+            <span className={styles.DetailsView}>
+              {userData?.vehicleDetails?.licensePlate}
+            </span>
           </div>
           <div className={styles.NameandDetails}>
             <span className={styles.NameView}>Vehicle Make</span>
-            <span className={styles.DetailsView}>Maruti Suzuki</span>
+            <span className={styles.DetailsView}>
+              {userData?.vehicleDetails?.make}
+            </span>
           </div>
           <div className={styles.NameandDetails}>
             <span className={styles.NameView}>Owner Name</span>
-            <span className={styles.DetailsView}>Shameer</span>
+            <span className={styles.DetailsView}>{userData?.owner?.name}</span>
           </div>
         </div>
         <div className={styles.VehicleDetails2}>
@@ -41,8 +90,16 @@ function index() {
           </div>
           <div className={styles.NameandDetails}>
             <span className={styles.NameView}>Vehicle Model</span>
-            <span className={styles.DetailsView}>Swift</span>
+            <span className={styles.DetailsView}>
+              {userData?.vehicleDetails?.model}
+            </span>
           </div>
+          {/* <div className={styles.NameandDetails}>
+            <span className={styles.NameView}>Vehicle Year</span>
+            <span className={styles.DetailsView}>
+              {userData?.vehicleDetails?.year}
+            </span>
+          </div> */}
         </div>
       </div>
       <div className={styles.accessView}>
@@ -123,13 +180,17 @@ function index() {
         </div>
       </div>
       <div className={styles.reasonButtonArea}>
-        <button className={styles.ButtonArea}>
+        <button
+          className={styles.ButtonArea}
+          onClick={() => handleCall(userData?.owner?.phoneNumber)}
+        >
           <span className={styles.ButtonText}>Call Owner</span>
         </button>
         <button className={styles.ButtonArea1}>
           <span className={styles.ButtonText}>Notify</span>
         </button>
       </div>
+      {callScreen && <CallScreen />}
     </div>
   );
 }
