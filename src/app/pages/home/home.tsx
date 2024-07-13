@@ -9,11 +9,16 @@ import Android from "../../../../public/assets/images/android.svg";
 import CallScreen from "../../components/call-screen/callScreen";
 import { callApi } from "@/app/api/call_api/callApi";
 import { qrData } from "@/app/api/qrcodes/qrCode";
+import { smsAlert } from "@/app/api/sms_alert/smsAlert";
 
 interface UserData {
-  res: { data: object };
+  res: object;
   id: string;
-  owner: { name: string; phoneNumber: string };
+  owner: {
+    _id: SetStateAction<string>;
+    name: string;
+    phoneNumber: string;
+  };
   vehicleDetails: {
     licensePlate: string;
     make: string;
@@ -24,20 +29,9 @@ interface UserData {
 
 function index() {
   const [selectedReason, setSelectedReason] = useState("");
+  const [userId, setUserID] = useState("");
   const [userData, setUserData] = useState<UserData | undefined>(undefined);
   const [callScreen, setCallScreen] = useState(false);
-  // const qrData = async () => {
-  //   try {
-  //     const res: UserData = await axios.get(
-  //       "http://localhost:6001/api/qrcodes/QR17203515048660"
-  //     );
-  //     setUserData(res.data);
-  //     // return res;
-  //   } catch (error) {
-  //     console.error("Error checking data existence:", error);
-  //     return [];
-  //   }
-  // };
 
   const handleCall = (phoneNumber: string | undefined) => {
     setCallScreen(true);
@@ -45,20 +39,27 @@ function index() {
     callApi(phoneNumber);
   };
 
+  const handleReasonChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    if (userData && userData.owner && userData.owner._id) {
+      setUserID(userData.owner._id);
+      setSelectedReason(event.target.value);
+    }
+  };
+
+  const handleNotify = ()=>{
+    smsAlert(selectedReason,userId)
+  }
+
   useEffect(() => {
-    qrData().then((res) => {
+    qrData().then((res: any) => {
       setUserData(res.data);
-      console.log(res, "res");
     });
   }, []);
 
   console.log(userData, "<UserData>");
 
-  const handleReasonChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSelectedReason(event.target.value);
-  };
   return (
     <div className={styles.homeArea}>
       <div className={styles.logoArea}>
@@ -94,12 +95,6 @@ function index() {
               {userData?.vehicleDetails?.model}
             </span>
           </div>
-          {/* <div className={styles.NameandDetails}>
-            <span className={styles.NameView}>Vehicle Year</span>
-            <span className={styles.DetailsView}>
-              {userData?.vehicleDetails?.year}
-            </span>
-          </div> */}
         </div>
       </div>
       <div className={styles.accessView}>
@@ -186,7 +181,10 @@ function index() {
         >
           <span className={styles.ButtonText}>Call Owner</span>
         </button>
-        <button className={styles.ButtonArea1}>
+        <button
+          className={styles.ButtonArea1}
+          onClick={handleNotify}
+        >
           <span className={styles.ButtonText}>Notify</span>
         </button>
       </div>
