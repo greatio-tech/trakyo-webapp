@@ -10,6 +10,7 @@ import CallScreen from "../../components/call-screen/callScreen";
 import { callApi } from "@/app/api/call_api/callApi";
 import { qrData } from "@/app/api/qrcodes/qrCode";
 import { smsAlert } from "@/app/api/sms_alert/smsAlert";
+import { useRouter } from "next/router";
 
 interface UserData {
   res: object;
@@ -33,6 +34,10 @@ function index() {
   const [userData, setUserData] = useState<UserData | undefined>(undefined);
   const [callScreen, setCallScreen] = useState(false);
 
+  const currentURL = window.location.search;
+  const qrId = currentURL.split('?')[1];
+  console.log(currentURL, "happyano");
+
   const handleCall = (phoneNumber: string | undefined) => {
     setCallScreen(true);
 
@@ -48,12 +53,12 @@ function index() {
     }
   };
 
-  const handleNotify = ()=>{
-    smsAlert(selectedReason,userId)
-  }
+  const handleNotify = () => {
+    smsAlert(selectedReason, userId);
+  };
 
   useEffect(() => {
-    qrData().then((res: any) => {
+    qrData(qrId).then((res: any) => {
       setUserData(res.data);
     });
   }, []);
@@ -181,10 +186,7 @@ function index() {
         >
           <span className={styles.ButtonText}>Call Owner</span>
         </button>
-        <button
-          className={styles.ButtonArea1}
-          onClick={handleNotify}
-        >
+        <button className={styles.ButtonArea1} onClick={handleNotify}>
           <span className={styles.ButtonText}>Notify</span>
         </button>
       </div>

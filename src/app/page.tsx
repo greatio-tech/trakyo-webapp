@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 import Home from "@/app/pages/home/home";
 
 export default function index() {
+  
   return (
     
     <main className={styles.main}>

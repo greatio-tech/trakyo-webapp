@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const qrData = async () => {
+export const qrData = async (qrId:string) => {
     try {
       const res = await axios.get(
-        "http://localhost:6001/api/qrcodes/QR17203515048660"
+        `http://localhost:6001/api/qrcodes/${qrId}`
       );
     //   setUserData(res.data);
       return res;
