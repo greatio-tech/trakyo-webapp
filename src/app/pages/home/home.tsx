@@ -29,7 +29,7 @@ interface UserData {
   };
 }
 
-function index() {
+function Index() {
   const [selectedReason, setSelectedReason] = useState("");
   const [userId, setUserID] = useState("");
   const [userData, setUserData] = useState<UserData | undefined>(undefined);
@@ -199,4 +199,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;
