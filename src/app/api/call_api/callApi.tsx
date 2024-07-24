@@ -1,14 +1,12 @@
 import axios from "axios";
 
-export const callApi = async (
-  phoneNumber: string | undefined
-) => {
+export const callApi = async (phoneNumber: string | undefined) => {
   try {
     const res = await axios.post(
       "http://ec2-52-63-190-154.ap-southeast-2.compute.amazonaws.com:6000/api/calls/start",
       {
-        "from": "+91XXXXXXXXXX",
-        to: phoneNumber
+        from: "+91XXXXXXXXXX",
+        to: phoneNumber,
       }
     );
     return res;
