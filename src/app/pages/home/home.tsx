@@ -35,9 +35,12 @@ function index() {
   const [userData, setUserData] = useState<UserData | undefined>(undefined);
   const [callScreen, setCallScreen] = useState(false);
 
-  const currentURL = window.location.search;
-  const qrId = currentURL.split('?')[1];
-  console.log(currentURL, "happyano");
+  let qrId = '';
+
+  if (typeof window !== 'undefined') {
+    const currentURL = window.location.search;
+    qrId = currentURL.split('?')[1];
+  }
 
   const handleCall = (phoneNumber: string | undefined) => {
     setCallScreen(true);
