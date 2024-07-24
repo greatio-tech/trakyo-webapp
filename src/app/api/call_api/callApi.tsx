@@ -5,11 +5,10 @@ export const callApi = async (
 ) => {
   try {
     const res = await axios.post(
-      "http://localhost:6001/api/calls/start",
+      "http://ec2-52-63-190-154.ap-southeast-2.compute.amazonaws.com:6000/api/calls/start",
       {
-        from: "+13606579749",
-        to: phoneNumber,
-        url: "https://demo.twilio.com/docs/voice.xml",
+        "from": "+91XXXXXXXXXX",
+        to: phoneNumber
       }
     );
     return res;

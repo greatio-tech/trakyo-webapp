@@ -25,6 +25,7 @@ interface UserData {
     make: string;
     model: string;
     year: string;
+    vehicleType:string;
   };
 }
 
@@ -92,7 +93,7 @@ function index() {
         <div className={styles.VehicleDetails2}>
           <div className={styles.NameandDetails}>
             <span className={styles.NameView}>Vehicle Type</span>
-            <span className={styles.DetailsView}>4 wheeler</span>
+            <span className={styles.DetailsView}>{userData?.vehicleDetails?.vehicleType}</span>
           </div>
           <div className={styles.NameandDetails}>
             <span className={styles.NameView}>Vehicle Model</span>
