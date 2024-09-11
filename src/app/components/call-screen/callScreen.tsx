@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styles from "./CallScreen.module.css";
-import OtpInput, { InputProps } from "react-otp-input";
-import { ClassNames } from "@emotion/react";
-function callScreen() {
+import OtpInput from "react-otp-input";
+
+function CallScreen() {
   const [otp, setOtp] = useState("");
+
   return (
     <div className={`${styles.popUpContainer}`}>
       <div className={`${styles.diaolgBlock}`}>
@@ -38,10 +39,6 @@ function callScreen() {
             </div>
 
             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-              {/* <div>
-                <Image style={{ display: "flex" }} src={flag} alt="logo" />
-              </div> */}
-
               <div>
                 <input
                   type="text"
@@ -49,18 +46,14 @@ function callScreen() {
                   name="from_email"
                   maxLength={10}
                   placeholder="Enter mobile number"
-                  // value={email.toLowerCase() && email.trim()}
-                  // onChange={handleEmailChange}
                 />
               </div>
             </div>
           </div>
 
-          <button className={styles.button}>Sent OTP</button>
+          <button className={styles.button}>Send OTP</button>
 
           <div className={styles.ContactusTypeName}>
-            {/* <img src="/indian_flag.svg" alt="img" /> */}
-
             <div
               style={{
                 display: "flex",
@@ -89,14 +82,10 @@ function callScreen() {
                 justifyContent: "center",
               }}
             >
-              {/* <div>
-                <Image style={{ display: "flex" }} src={flag} alt="logo" />
-              </div> */}
-
               <div>
                 <OtpInput
                   value={otp}
-                  onChange={()=>setOtp("")}
+                  onChange={(otp) => setOtp(otp)}
                   numInputs={6}
                   inputStyle={{
                     appearance: "none",
@@ -112,44 +101,13 @@ function callScreen() {
                   renderInput={(props) => <input {...props} />}
                 />
               </div>
-
-              {/* <div>
-                <input
-                  type="text"
-                  className={styles.input1}
-                  placeholder="Enter OTP"
-                  maxLength={6}
-                  // value={email.toLowerCase() && email.trim()}
-                  // onChange={handleEmailChange}
-                />
-              </div> */}
             </div>
           </div>
           <button className={styles.button}>Submit</button>
         </div>
-        {/* <div>
-          <div>
-            <Image src={User} alt="logo" />
-          </div>
-          <div className={`${styles.details}`}>
-            <span className={`${styles.CallingName}`}>Calling owner Shameer</span>
-            <span className={`${styles.ringing}`} >Ringing..</span>
-          </div>  
-        </div>
-        <div className={`${styles.CallControlls}`}>
-          <div>
-            <Image src={Speker} alt="logo" />
-          </div>
-          <div>
-            <button className={`${styles.CallEnd}`}>End</button>
-          </div>
-          <div>
-            <Image src={Mike} alt="logo" />
-          </div>
-        </div> */}
       </div>
     </div>
   );
 }
 
-export default callScreen;
+export default CallScreen;
