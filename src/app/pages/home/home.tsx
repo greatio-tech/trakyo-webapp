@@ -25,7 +25,7 @@ interface UserData {
     make: string;
     model: string;
     year: string;
-    vehicleType:string;
+    vehicleType: string;
   };
 }
 
@@ -35,11 +35,11 @@ function Index() {
   const [userData, setUserData] = useState<UserData | undefined>(undefined);
   const [callScreen, setCallScreen] = useState(false);
 
-  let qrId = '';
+  let qrId = "";
 
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const currentURL = window.location.search;
-    qrId = currentURL.split('?')[1];
+    qrId = currentURL.split("?")[1];
   }
 
   const handleCall = (phoneNumber: string | undefined) => {
@@ -62,11 +62,11 @@ function Index() {
   };
 
   useEffect(() => {
-    // if (qrId === undefined) {
-    // }
-    qrData(qrId).then((res: any) => {
-      setUserData(res.data);
-    });
+    if (qrId != undefined) {
+      qrData(qrId).then((res: any) => {
+        setUserData(res.data);
+      });
+    }
   }, []);
 
   console.log(userData, "<UserData>");
@@ -98,7 +98,9 @@ function Index() {
         <div className={styles.VehicleDetails2}>
           <div className={styles.NameandDetails}>
             <span className={styles.NameView}>Vehicle Type</span>
-            <span className={styles.DetailsView}>{userData?.vehicleDetails?.vehicleType}</span>
+            <span className={styles.DetailsView}>
+              {userData?.vehicleDetails?.vehicleType}
+            </span>
           </div>
           <div className={styles.NameandDetails}>
             <span className={styles.NameView}>Vehicle Model</span>

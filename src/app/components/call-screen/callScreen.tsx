@@ -96,7 +96,7 @@ function callScreen() {
               <div>
                 <OtpInput
                   value={otp}
-                  onChange={setOtp}
+                  onChange={()=>setOtp("")}
                   numInputs={6}
                   inputStyle={{
                     appearance: "none",
