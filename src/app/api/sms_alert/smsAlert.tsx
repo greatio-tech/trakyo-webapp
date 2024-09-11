@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const smsAlert = async (Message: string | undefined, userId: string) => {
   try {
-    const res = await axios.post("http://ec2-52-63-190-154.ap-southeast-2.compute.amazonaws.com:6000/api/alert/alert", {    
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/alert/alert`, {    
     userId: userId,
     message: Message    
     });

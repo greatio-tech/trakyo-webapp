@@ -5,7 +5,7 @@ export const callApi = async (phoneNumber: string | undefined) => {
 
   try {
     const res = await axios.post(
-      `${process.env.BaseUrl}/calls/start`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/calls/start`,
       {
         from: "+91XXXXXXXXXX",
         to: phoneNumber,
