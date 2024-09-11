@@ -4,7 +4,7 @@ import axios from "axios";
 export const qrData = async (qrId:string) => {
     try {
       const res = await axios.get(
-        `${process.env.BASEURL}/qrcodes/${qrId}`
+        `https://api.trakyo.com/api/qrcodes${qrId}`
       );
     //   setUserData(res.data);
       return res;
