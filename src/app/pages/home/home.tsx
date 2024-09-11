@@ -62,6 +62,8 @@ function Index() {
   };
 
   useEffect(() => {
+    // if (qrId === undefined) {
+    // }
     qrData(qrId).then((res: any) => {
       setUserData(res.data);
     });
