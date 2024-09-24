@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();  // This loads the .env file and puts values into process.env
-
 import axios from "axios";
 
 export const qrData = async (qrId: string) => {

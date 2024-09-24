@@ -1,13 +1,74 @@
 import React, { useState } from "react";
 import styles from "./CallScreen.module.css";
 import OtpInput from "react-otp-input";
+import { otpApi } from "@/app/api/otp_api/OtpApi";
+import toast, { Toaster } from "react-hot-toast";
+import { verifyOtpAndcallApi } from "@/app/api/call_api/callApi";
 
-function CallScreen() {
+function CallScreen({ qrId, handleCloseCall, popUpRef }: any) {
   const [otp, setOtp] = useState("");
+  const [number, setNumber] = useState("");
+  const [token, setToken] = useState("");
+
+  const handlePhoneNumber = (e: any) => {
+    const phoneNumber = e.target.value;
+    if (phoneNumber.length < 10) {
+      toast.error("The number you entered is invalid!");
+    } else {
+      setNumber(phoneNumber);
+    }
+  };
+
+  const sendOTP = () => {
+    if (number) {
+      otpApi(number).then((res: any) => {
+        if (res.status == 200) {
+          toast.success("Your OTP has been sent successfully!");
+          setToken(res.data.token);
+        } else {
+          toast.error("Please check your connection and try again.");
+        }
+      });
+    }
+  };
+
+  const verifyOtp = () => {
+    if (number && qrId && otp && token) {
+      verifyOtpAndcallApi(number, qrId, otp, token).then((res: any) => {
+        const virtualNumber = res?.data?.virtualNumber;
+        if (virtualNumber) {
+          // Create a temporary anchor element
+          const tempLink = document.createElement("a");
+
+          // Set the href attribute to the virtual number with the `tel:` scheme
+          tempLink.href = `tel:${virtualNumber}`;
+
+          // Append the anchor to the body (necessary for Firefox)
+          document.body.appendChild(tempLink);
+          toast.success("Your call is being forwarded");
+          // Programmatically click the anchor to trigger the dial pad
+          tempLink.click();
+
+          // Remove the temporary anchor element
+          document.body.removeChild(tempLink);
+          handleCloseCall();
+        } else {
+          console.error("Virtual number not found in the response");
+        }
+      });
+    }
+  };
 
   return (
-    <div className={`${styles.popUpContainer}`}>
-      <div className={`${styles.diaolgBlock}`}>
+    <div
+      ref={popUpRef}
+      className={`${styles.popUpContainer}`}
+      onClick={handleCloseCall}
+    >
+      <div
+        className={`${styles.diaolgBlock}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div
           style={{
             display: "flex",
@@ -46,12 +107,16 @@ function CallScreen() {
                   name="from_email"
                   maxLength={10}
                   placeholder="Enter mobile number"
+                  onChange={(e) => handlePhoneNumber(e)}
                 />
               </div>
             </div>
           </div>
 
-          <button className={styles.button}>Send OTP</button>
+          <button className={styles.button} onClick={sendOTP}>
+            Send OTP
+          </button>
+          <Toaster />
 
           <div className={styles.ContactusTypeName}>
             <div
@@ -103,7 +168,9 @@ function CallScreen() {
               </div>
             </div>
           </div>
-          <button className={styles.button}>Submit</button>
+          <button className={styles.button} onClick={verifyOtp}>
+            Submit
+          </button>
         </div>
       </div>
     </div>

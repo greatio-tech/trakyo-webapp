@@ -1,5 +1,5 @@
 "use client";
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import styles from "./home.module.css";
 import Image from "next/image";
 import axios from "axios";
@@ -35,6 +35,8 @@ function Index() {
   const [userData, setUserData] = useState<UserData | undefined>(undefined);
   const [callScreen, setCallScreen] = useState(false);
 
+  const popUpRef = useRef<HTMLDivElement | null>(null);
+
   let qrId = "";
 
   if (typeof window !== "undefined") {
@@ -45,7 +47,14 @@ function Index() {
   const handleCall = (phoneNumber: string | undefined) => {
     setCallScreen(true);
 
-    callApi(phoneNumber);
+    // callApi(phoneNumber);
+  };
+
+  const handleCloseCall = (phoneNumber: string | undefined) => {
+    setCallScreen(false);
+    if (popUpRef.current) {
+      popUpRef.current.style.display = "none";
+    }
   };
 
   const handleReasonChange = (event: {
@@ -198,7 +207,13 @@ function Index() {
           <span className={styles.ButtonText}>Notify</span>
         </button>
       </div>
-      {callScreen && <CallScreen />}
+      {callScreen && (
+        <CallScreen
+          qrId={qrId}
+          handleCloseCall={handleCloseCall}
+          popUpRef={popUpRef}
+        />
+      )}
     </div>
   );
 }
