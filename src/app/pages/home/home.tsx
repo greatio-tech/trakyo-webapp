@@ -11,6 +11,8 @@ import { callApi } from "@/app/api/call_api/callApi";
 import { qrData } from "@/app/api/qrcodes/qrCode";
 import { smsAlert } from "@/app/api/sms_alert/smsAlert";
 import { useRouter } from "next/router";
+import toast, { Toaster } from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 interface UserData {
   res: object;
@@ -64,19 +66,28 @@ function Index() {
     if (userData && userData.owner && userData.owner._id) {
       setUserID(userData.owner._id);
       setSelectedReason(event.target.value);
-      setRegistration(userData?.vehicleDetails?.licensePlate)
+      setRegistration(userData?.vehicleDetails?.licensePlate);
     }
   };
 
   const handleNotify = () => {
-    smsAlert(selectedReason,registration, userId);
+    smsAlert(selectedReason, registration, userId).then((res: any) => {
+      console.log(res.data.message, "res12345");
+      if (res.data.message) {
+        toast.success(res.data.message);
+      } else {
+        toast.error("Alert sent Failed");
+      }
+    });
   };
 
   useEffect(() => {
-    if (qrId != undefined) {
+    if (qrId != undefined && userData?.vehicleDetails !== null) {
       qrData(qrId).then((res: any) => {
         setUserData(res.data);
       });
+    } else {
+      redirect("https://www.trakyo.com/");
     }
   }, []);
 
@@ -216,6 +227,7 @@ function Index() {
           popUpRef={popUpRef}
         />
       )}
+      <Toaster />
     </div>
   );
 }
