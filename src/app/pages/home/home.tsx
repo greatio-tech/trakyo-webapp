@@ -35,7 +35,7 @@ function Index() {
   const [selectedReason, setSelectedReason] = useState("");
   const [userId, setUserID] = useState("");
   const [registration, setRegistration] = useState("");
-  const [userData, setUserData] = useState<UserData | undefined>(undefined);
+  const [userData, setUserData] = useState<UserData>();
   const [callScreen, setCallScreen] = useState(false);
 
   const popUpRef = useRef<HTMLDivElement | null>(null);
@@ -82,15 +82,29 @@ function Index() {
   };
 
   useEffect(() => {
-    
-    if (qrId != undefined && userData?.owner != null && !userData?.vehicleDetails) {
+    console.log(userData?.owner, "oho");
+
+    if (qrId != undefined) {
       qrData(qrId).then((res: any) => {
-        setUserData(res.data);
+        // setUserData(res.data);
+        const data = res.data;
+
+        if (data && data.owner && data.vehicleDetails) {
+          setUserData(data);
+        } else {
+          toast.error("No QR Data found!");
+          setTimeout(() => {
+            window.location.href = "https://www.trakyo.com/";
+          }, 1000);
+        }
       });
     } else {
-      redirect("https://www.trakyo.com/");
+      toast.error("No QR Data found!");
+      setTimeout(() => {
+        window.location.href = "https://www.trakyo.com/";
+      }, 1000);
     }
-  }, []);
+  }, [qrId]);
 
   console.log(userData, "<UserData>");
 
