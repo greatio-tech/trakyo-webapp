@@ -82,7 +82,8 @@ function Index() {
   };
 
   useEffect(() => {
-    if (qrId != undefined && userData?.vehicleDetails !== null) {
+    
+    if (qrId != undefined && userData?.owner != null && !userData?.vehicleDetails) {
       qrData(qrId).then((res: any) => {
         setUserData(res.data);
       });
