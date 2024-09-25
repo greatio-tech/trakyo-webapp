@@ -182,7 +182,7 @@ function Index() {
                 name="reason"
                 value=""
                 // checked={selectedReason === "accident"}
-                onChange={handleReasonChange}
+                // onChange={handleReasonChange}
                 className={styles.customRadio}
               />
             </div>
