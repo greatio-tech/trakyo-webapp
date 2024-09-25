@@ -175,7 +175,7 @@ function Index() {
                 className={styles.customRadio}
               />
             </div>
-            {selectedReason !== "" ? (
+            {/* {selectedReason !== "" ? (
               <div className={styles.EmergencyArea}>
                 <button className={styles.EmergencyButton}>
                   Contact Emergency person
@@ -183,7 +183,7 @@ function Index() {
               </div>
             ) : (
               ""
-            )}
+            )} */}
           </div>
           <div className={styles.reasonShow}>
             <span>Vehicle is facing parking issues</span>
