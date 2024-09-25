@@ -13,7 +13,9 @@ function CallScreen({ qrId, handleCloseCall, popUpRef }: any) {
   const handlePhoneNumber = (e: any) => {
     const phoneNumber = e.target.value;
     if (phoneNumber.length < 10) {
-      toast.error("The number you entered is invalid!");
+      // toast.error("The number you entered is invalid!");
+      console.log("The number you entered is invalid!");
+      
     } else {
       setNumber(phoneNumber);
     }

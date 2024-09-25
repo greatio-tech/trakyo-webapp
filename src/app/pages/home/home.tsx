@@ -32,6 +32,7 @@ interface UserData {
 function Index() {
   const [selectedReason, setSelectedReason] = useState("");
   const [userId, setUserID] = useState("");
+  const [registration, setRegistration] = useState("");
   const [userData, setUserData] = useState<UserData | undefined>(undefined);
   const [callScreen, setCallScreen] = useState(false);
 
@@ -63,11 +64,12 @@ function Index() {
     if (userData && userData.owner && userData.owner._id) {
       setUserID(userData.owner._id);
       setSelectedReason(event.target.value);
+      setRegistration(userData?.vehicleDetails?.licensePlate)
     }
   };
 
   const handleNotify = () => {
-    smsAlert(selectedReason, userId);
+    smsAlert(selectedReason,registration, userId);
   };
 
   useEffect(() => {
@@ -144,8 +146,8 @@ function Index() {
             <input
               type="radio"
               name="reason"
-              value="Vehicle is getting towed away"
-              checked={selectedReason === "Vehicle is getting towed away"}
+              value="towedaway"
+              checked={selectedReason === "towedaway"}
               onChange={handleReasonChange}
               className={styles.customRadio}
             />
@@ -155,8 +157,8 @@ function Index() {
             <input
               type="radio"
               name="reason"
-              value="Vehicle is not locked"
-              checked={selectedReason === "Vehicle is not locked"}
+              value="notlocked"
+              checked={selectedReason === "notlocked"}
               onChange={handleReasonChange}
               className={styles.customRadio}
             />
@@ -167,13 +169,13 @@ function Index() {
               <input
                 type="radio"
                 name="reason"
-                value="Vehicle met accident"
-                checked={selectedReason === "Vehicle met accident"}
+                value=""
+                // checked={selectedReason === "accident"}
                 onChange={handleReasonChange}
                 className={styles.customRadio}
               />
             </div>
-            {selectedReason === "Vehicle met accident" ? (
+            {selectedReason !== "" ? (
               <div className={styles.EmergencyArea}>
                 <button className={styles.EmergencyButton}>
                   Contact Emergency person
@@ -188,8 +190,8 @@ function Index() {
             <input
               type="radio"
               name="reason"
-              value="Vehicle is facing parking issues"
-              checked={selectedReason === "Vehicle is facing parking issues"}
+              value="parkingissue"
+              checked={selectedReason === "parkingissue"}
               onChange={handleReasonChange}
               className={styles.customRadio}
             />
