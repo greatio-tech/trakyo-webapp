@@ -106,7 +106,11 @@ function Index() {
     }
   }, [qrId]);
 
-  console.log(userData, "<UserData>");
+  const handleReason = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSelectedReason(event.target.value);
+  };
 
   return (
     <div className={styles.homeArea}>
@@ -195,21 +199,30 @@ function Index() {
               <input
                 type="radio"
                 name="reason"
-                value=""
-                // checked={selectedReason === "accident"}
-                // onChange={handleReasonChange}
+                value="accident"
+                checked={selectedReason === "accident"}
+                onChange={handleReason}
                 className={styles.customRadio}
               />
             </div>
-            {/* {selectedReason !== "" ? (
+            {selectedReason === "accident" ? (
               <div className={styles.EmergencyArea}>
-                <button className={styles.EmergencyButton}>
-                  Contact Emergency person
+                <button
+                  className={styles.SendPhotoButton}
+                  // onClick={()=>}
+                >
+                  Send photo
+                </button>
+                <button
+                  className={styles.EmergencyButton}
+                  onClick={() => handleCall(userData?.owner?.phoneNumber)}
+                >
+                  Emergency contact
                 </button>
               </div>
             ) : (
               ""
-            )} */}
+            )}
           </div>
           <div className={styles.reasonShow}>
             <span>Vehicle is facing parking issues</span>

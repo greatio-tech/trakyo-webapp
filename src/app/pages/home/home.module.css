@@ -171,7 +171,20 @@
 
 .EmergencyButton {
   background: #0461fe;
-  width: 310px;
+  width: 149px;
+  height: 39px;
+  border: none;
+  border-radius: 6px;
+  padding: 9px, 16px, 9px, 16px;
+  font-weight: 500;
+}
+
+.SendPhotoButton {
+  background: #c2d4f5;
+  color: #0461fe;
+  font-weight: 500;
+  width: 149px;
+  height: 39px;
   border: none;
   border-radius: 6px;
   padding: 9px, 16px, 9px, 16px;
@@ -183,6 +196,7 @@
   margin-bottom: 17px;
   height: 32px;
   width: 100%;
+  gap: 10px;
 }
 
 .customRadio {
@@ -197,7 +211,7 @@
 }
 
 .customRadio:checked::before {
-  content: '';
+  content: "";
   width: 11px;
   height: 11px;
   border-radius: 50%;
