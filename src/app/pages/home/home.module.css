@@ -160,6 +160,9 @@
   line-height: 18.75px;
   text-align: center;
 }
+.ButtonTextColorWhite {
+  color: #ffffff;
+}
 
 .ButtonArea1 {
   width: 163px;
