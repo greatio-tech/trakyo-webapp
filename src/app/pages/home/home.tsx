@@ -81,30 +81,30 @@ function Index() {
     });
   };
 
-  useEffect(() => {
-    console.log(userData?.owner, "oho");
+  // useEffect(() => {
+  //   console.log(userData?.owner, "oho");
 
-    if (qrId != undefined) {
-      qrData(qrId).then((res: any) => {
-        // setUserData(res.data);
-        const data = res.data;
+  //   if (qrId != undefined) {
+  //     qrData(qrId).then((res: any) => {
+  //       // setUserData(res.data);
+  //       const data = res.data;
 
-        if (data && data.owner && data.vehicleDetails) {
-          setUserData(data);
-        } else {
-          toast.error("No QR Data found!");
-          setTimeout(() => {
-            window.location.href = "https://www.trakyo.com/";
-          }, 1000);
-        }
-      });
-    } else {
-      toast.error("No QR Data found!");
-      setTimeout(() => {
-        window.location.href = "https://www.trakyo.com/";
-      }, 1000);
-    }
-  }, [qrId]);
+  //       if (data && data.owner && data.vehicleDetails) {
+  //         setUserData(data);
+  //       } else {
+  //         toast.error("No QR Data found!");
+  //         setTimeout(() => {
+  //           window.location.href = "https://www.trakyo.com/";
+  //         }, 1000);
+  //       }
+  //     });
+  //   } else {
+  //     toast.error("No QR Data found!");
+  //     setTimeout(() => {
+  //       window.location.href = "https://www.trakyo.com/";
+  //     }, 1000);
+  //   }
+  // }, [qrId]);
 
   const handleReason = (event: {
     target: { value: React.SetStateAction<string> };
@@ -214,7 +214,7 @@ function Index() {
                   Send photo
                 </button>
                 <button
-                  className={styles.EmergencyButton}
+                  className={`${styles.EmergencyButton} ${styles.ButtonTextColorWhite}`}
                   onClick={() => handleCall(userData?.owner?.phoneNumber)}
                 >
                   Emergency contact

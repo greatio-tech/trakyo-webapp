@@ -21,6 +21,9 @@
   display: flex;
   /* justify-content: space-around; */
 }
+.ButtonTextColorWhite {
+  color: white;
+}
 
 .VehicleDetails {
   display: flex;
