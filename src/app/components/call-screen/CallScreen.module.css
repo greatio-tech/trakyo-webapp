@@ -44,6 +44,14 @@
   padding: 10px 20px;
   font-weight: 600;
 }
+.ButtonTextColorWhite {
+  color: white;
+}
+.otpInput {
+  font-size: 5px !important;
+  touch-action: manipulation !important;
+  -webkit-text-size-adjust: 200% !important;
+}
 
 .input1 {
   width: 300px;
@@ -55,6 +63,24 @@
   background-color: #f3f3f3;
   color: black;
   font-size: 14px;
+  /* touch-action: manipulation !important;
+  -webkit-text-size-adjust: 200% !important; */
+}
+
+@supports (-webkit-touch-callout: none) {
+  .input1 {
+    width: 300px;
+    height: 40px;
+    font-weight: 500;
+    padding-left: 10px;
+    border: 1px solid #f3f3f3;
+    border-radius: 5px;
+    background-color: #f3f3f3;
+    color: black;
+    font-size: 9px !important;
+    touch-action: manipulation !important;
+    -webkit-text-size-adjust: 200% !important;
+  }
 }
 
 .details {

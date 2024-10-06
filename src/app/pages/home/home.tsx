@@ -271,7 +271,7 @@ function Index() {
                   </button>
                 )}
                 <button
-                  className={styles.EmergencyButton}
+                  className={`${styles.EmergencyButton} ${styles.ButtonTextColorWhite}`}
                   onClick={() => handleCall(userData?.owner?.phoneNumber)}
                 >
                   Emergency contact
@@ -302,7 +302,11 @@ function Index() {
           <span className={styles.ButtonText}>Call Owner</span>
         </button>
         <button className={styles.ButtonArea1} onClick={handleNotify}>
-          <span className={styles.ButtonText}>Notify</span>
+          <span
+            className={`${styles.ButtonText} ${styles.ButtonTextColorWhite}`}
+          >
+            Notify
+          </span>
         </button>
       </div>
       {callScreen && (

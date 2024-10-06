@@ -95,6 +95,7 @@ body {
   font-style: normal;
   font-family: "SF Pro";
   transition: 0.3s ease-in-out;
+  overflow-x: clip;
 }
 
 body {

@@ -21,6 +21,9 @@
   display: flex;
   /* justify-content: space-around; */
 }
+.ButtonTextColorWhite {
+  color: white;
+}
 
 .VehicleDetails {
   display: flex;
@@ -160,6 +163,9 @@
   font-weight: 600;
   line-height: 18.75px;
   text-align: center;
+}
+.ButtonTextColorWhite {
+  color: #ffffff;
 }
 
 .ButtonArea1 {

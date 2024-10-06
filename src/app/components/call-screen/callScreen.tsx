@@ -15,7 +15,6 @@ function CallScreen({ qrId, handleCloseCall, popUpRef }: any) {
     if (phoneNumber.length < 10) {
       // toast.error("The number you entered is invalid!");
       console.log("The number you entered is invalid!");
-      
     } else {
       setNumber(phoneNumber);
     }
@@ -104,18 +103,33 @@ function CallScreen({ qrId, handleCloseCall, popUpRef }: any) {
             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <div>
                 <input
-                  type="text"
+                  type="number"
                   className={styles.input1}
                   name="from_email"
                   maxLength={10}
                   placeholder="Enter mobile number"
                   onChange={(e) => handlePhoneNumber(e)}
+                  onInput={(e: React.FormEvent<HTMLInputElement>) => {
+                    const input = e.currentTarget;
+
+                    if (input.value.length > 10) {
+                      input.value = input.value.slice(0, 10);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (["e", "E", "+", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
             </div>
           </div>
 
-          <button className={styles.button} onClick={sendOTP}>
+          <button
+            className={`${styles.button} ${styles.ButtonTextColorWhite}`}
+            onClick={sendOTP}
+          >
             Send OTP
           </button>
           <Toaster />
@@ -149,11 +163,12 @@ function CallScreen({ qrId, handleCloseCall, popUpRef }: any) {
                 justifyContent: "center",
               }}
             >
-              <div>
+              <div className={styles.otpInput}>
                 <OtpInput
                   value={otp}
                   onChange={(otp) => setOtp(otp)}
                   numInputs={6}
+                  inputType="number"
                   inputStyle={{
                     appearance: "none",
                     width: "40px",
@@ -170,7 +185,10 @@ function CallScreen({ qrId, handleCloseCall, popUpRef }: any) {
               </div>
             </div>
           </div>
-          <button className={styles.button} onClick={verifyOtp}>
+          <button
+            className={`${styles.button} ${styles.ButtonTextColorWhite}`}
+            onClick={verifyOtp}
+          >
             Submit
           </button>
         </div>
