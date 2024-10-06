@@ -4,6 +4,7 @@ import styles from "./home.module.css";
 import Image from "next/image";
 import axios from "axios";
 import TrakyoLogo from "../../../../public/assets/images/Trakyo_logo.svg";
+import Trash from "../../../../public/assets/images/trash.png";
 import Ios from "../../../../public/assets/images/ios.svg";
 import Android from "../../../../public/assets/images/android.svg";
 import CallScreen from "../../components/call-screen/callScreen";
@@ -35,10 +36,13 @@ function Index() {
   const [selectedReason, setSelectedReason] = useState("");
   const [userId, setUserID] = useState("");
   const [registration, setRegistration] = useState("");
+  const [image, setImage]: any = useState();
   const [userData, setUserData] = useState<UserData>();
   const [callScreen, setCallScreen] = useState(false);
 
   const popUpRef = useRef<HTMLDivElement | null>(null);
+
+  const hiddenFileInput = useRef<HTMLInputElement | null>(null);
 
   let qrId = "";
 
@@ -70,9 +74,30 @@ function Index() {
     }
   };
 
+  // const handleNotify = () => {
+  //   smsAlert(selectedReason, registration, userId).then((res: any) => {
+  //     console.log(res.data.message, "res12345");
+  //     if (res.data.message) {
+  //       toast.success(res.data.message);
+  //     } else {
+  //       toast.error("Alert sent Failed");
+  //     }
+  //   });
+  // };
+
   const handleNotify = () => {
-    smsAlert(selectedReason, registration, userId).then((res: any) => {
-      console.log(res.data.message, "res12345");
+    if (selectedReason == "accident" && !image) {
+      toast.error("Please select a image");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("vehicleReg", registration);
+    formData.append("userId", userId);
+    formData.append("qrCode", qrId);
+    if (image) {
+      formData.append("image", image);
+    }
+    smsAlert(formData, selectedReason).then((res: any) => {
       if (res.data.message) {
         toast.success(res.data.message);
       } else {
@@ -81,9 +106,26 @@ function Index() {
     });
   };
 
-  useEffect(() => {
-    console.log(userData?.owner, "oho");
+  const handleChange = (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+      setImage(i);
+    }
+  };
 
+  const uploadImage = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    if (hiddenFileInput.current) {
+      hiddenFileInput.current.click();
+    }
+  };
+
+  const removeImage = () => {
+    setImage();
+  };
+
+  useEffect(() => {
     if (qrId != undefined) {
       qrData(qrId).then((res: any) => {
         // setUserData(res.data);
@@ -105,12 +147,6 @@ function Index() {
       }, 1000);
     }
   }, [qrId]);
-
-  const handleReason = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSelectedReason(event.target.value);
-  };
 
   return (
     <div className={styles.homeArea}>
@@ -166,7 +202,7 @@ function Index() {
           </div>
         </div>
       </div>
-      <div className={styles.reasonList}>
+      <form className={styles.reasonList}>
         <div className={styles.reasonHeading}>
           <span>Select reason to contact owner</span>
         </div>
@@ -201,18 +237,39 @@ function Index() {
                 name="reason"
                 value="accident"
                 checked={selectedReason === "accident"}
-                onChange={handleReason}
+                onChange={handleReasonChange}
                 className={styles.customRadio}
               />
             </div>
             {selectedReason === "accident" ? (
               <div className={styles.EmergencyArea}>
-                <button
-                  className={styles.SendPhotoButton}
-                  // onClick={()=>}
-                >
-                  Send photo
-                </button>
+                <input
+                  type="file"
+                  ref={hiddenFileInput}
+                  onChange={handleChange}
+                  accept="image/*"
+                  style={{ display: "none" }}
+                />
+                {image ? (
+                  <div className={styles.imageArea}>
+                    {image?.name}
+                    <Image
+                      src={Trash}
+                      alt="trash"
+                      height={12}
+                      width={12}
+                      onClick={removeImage}
+                    />
+                  </div>
+                ) : (
+                  <button
+                    className={styles.SendPhotoButton}
+                    aria-label="file upload "
+                    onClick={uploadImage}
+                  >
+                    Send photo
+                  </button>
+                )}
                 <button
                   className={styles.EmergencyButton}
                   onClick={() => handleCall(userData?.owner?.phoneNumber)}
@@ -236,7 +293,7 @@ function Index() {
             />
           </div>
         </div>
-      </div>
+      </form>
       <div className={styles.reasonButtonArea}>
         <button
           className={styles.ButtonArea}

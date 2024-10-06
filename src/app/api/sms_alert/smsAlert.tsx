@@ -1,16 +1,14 @@
 import axios from "axios";
 
-export const smsAlert = async (
-  Message: string | undefined,
-  registration: string,
-  userId: string
-) => {
+export const smsAlert = async (formData: FormData, Message: string) => {
   try {
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/alert/owner/?messageType=${Message}`,
+      formData,
       {
-        userId: userId,
-        vehicleReg: registration,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       }
     );
     return res;
