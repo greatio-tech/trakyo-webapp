@@ -244,10 +244,11 @@ function Index() {
             {selectedReason === "accident" ? (
               <div className={styles.EmergencyArea}>
                 <input
-                  type="file"
                   ref={hiddenFileInput}
                   onChange={handleChange}
+                  type="file"
                   accept="image/*"
+                  capture
                   style={{ display: "none" }}
                 />
                 {image ? (
