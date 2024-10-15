@@ -14,6 +14,7 @@ import { smsAlert } from "@/app/api/sms_alert/smsAlert";
 import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 import { redirect } from "next/navigation";
+import imageCompression from "browser-image-compression";
 
 interface UserData {
   res: object;
@@ -100,16 +101,28 @@ function Index() {
     smsAlert(formData, selectedReason).then((res: any) => {
       if (res.data.message) {
         toast.success(res.data.message);
+        setImage();
+        setSelectedReason("");
       } else {
         toast.error("Alert sent Failed");
       }
     });
   };
 
-  const handleChange = (event: any) => {
+  const handleChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
-      setImage(i);
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1024,
+        useWebWorker: true,
+      };
+      try {
+        const compressedImage = await imageCompression(i, options);
+        setImage(compressedImage);
+      } catch (error) {
+        console.error("Error while compressing the image:", error);
+      }
     }
   };
 
